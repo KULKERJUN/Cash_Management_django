@@ -1,0 +1,91 @@
+{% extends 'master/base.html' %}
+
+{% block block1 %}
+<h3>Welcome to Dashboard {{ request.user.username }}</h3>
+
+<div class="row text-center my-4">
+  <div class="col-md-4">
+    <div class="card border-success">
+      <div class="card-body">
+        <h6 class="card-title">Total Income</h6>
+        <h4 class="text-success">{{ total_cash }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-danger">
+      <div class="card-body">
+        <h6 class="card-title">Total Expense</h6>
+        <h4 class="text-danger">{{ total_expense }}</h4>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="card border-primary">
+      <div class="card-body">
+        <h6 class="card-title">Balance</h6>
+        <h4>{{ balance }}</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="{% url 'addCash_view' %}" class="btn btn-success">+ Add Cash</a>
+<a href="{% url 'expense_view' %}" class="btn btn-danger">+ Add Expense</a>
+
+<h4 class="mt-4">Income</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Source</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for cash in cash_list %}
+    <tr>
+      <td>{{ cash.datetime }}</td>
+      <td>{{ cash.source }}</td>
+      <td>{{ cash.amount }}</td>
+      <td>{{ cash.description }}</td>
+      <td>
+        <a href="{% url 'edit_view' 'cash' cash.id %}">Edit</a>
+        <a href="{% url 'delete_view' 'cash' cash.id %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="4" class="text-center">No income yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h4 class="mt-4">Expenses</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Amount</th>
+      <th>Description</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for expense in expense_list %}
+    <tr>
+      <td>{{ expense.datetime }}</td>
+      <td>{{ expense.amount }}</td>
+      <td>{{ expense.description }}</td>
+      <td>
+        <a href="{% url 'edit_view' 'expense' expense.id %}">Edit</a>
+        <a href="{% url 'delete_view' 'expense' expense.id %}">Delete</a>
+      </td>
+    </tr>
+    {% empty %}
+    <tr><td colspan="3" class="text-center">No expenses yet.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock block1 %}

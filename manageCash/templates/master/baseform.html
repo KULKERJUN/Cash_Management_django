@@ -1,0 +1,16 @@
+{% extends 'master/base.html' %}
+{% load crispy_forms_tags %}
+
+
+{% block block1 %}
+<h3>{{form_title}}</h3>
+    <form method="POST">
+        {% csrf_token %}
+        {{form_data|crispy}}
+        <button type="submit" class="btn btn-primary">{{form_btn}}</button>
+    </form>
+
+    {% if extra_link %}
+    <p><a href="{% url extra_link %}">{{extra_text}}</a></p>
+    {% endif %}
+{% endblock block1 %}
